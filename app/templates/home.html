@@ -1,0 +1,688 @@
+{% extends "base.html" %}
+{% block title %} Trazabilidad Ganadera {% endblock %}
+{% block Content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-warning" role="alert">
+    {{message}}
+  </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <h1 class="logo"><a href="index.html">Groovin</a></h1> -->
+      <a href="index.html" class="logo">
+        <img src="{{ url_for('static', filename='img/logo.jfif') }}" alt="" class="img-fluid">
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link" href="#hero">Inicio</a></li>
+          <li><a class="nav-link" href="#about">Trazii Bovinos</a></li>
+          <li><a class="nav-link" href="#list">Noticias</a></li>
+          <li><a class="nav-link" href="#cta">Contacto</a></li>
+          <li><a class="nav-link" href="#portfolio">Eventos</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      <nav id="navprofile" class="navprofile order-last order-sm-0">
+        <ul>
+          <li class="dropdown"><a class="btn-get-started scrollto" href="#">Ingreso</a>
+            <ul class="ul-right">
+              <li><a data-bs-toggle="modal" href="#loginmodal">Iniciar Sesión</a></li>
+              <li><a data-bs-toggle="modal" href="#recovermodal">Recuperar Clave</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- Modal Login -->
+  <div class="modal fade" id="loginmodal" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="title-edit" name="title-edit">
+            <i class="bi bi-person-badge"></i>Iniciar Sesión
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="d-flex justify-content-center py-4">
+            <a class="logo d-flex align-items-center w-auto">
+              <img src="{{ url_for('static', filename='img/logo.jfif') }}" alt="">
+            </a>
+          </div><!-- End Logo -->
+
+          <div>
+            <h5 class="card-title text-center pb-0 fs-4">Ingresa a tu cuenta</h5>
+            <p class="text-center small pb-0 mb-0">Entra tu numero de celular y tu contraseña para iniciar sesión.</p>
+          </div>
+
+          <div class="d-flex justify-content-center py-4">
+            <!-- action="/login?agroactor=True" -->
+            <form method="post" class="data-form">
+
+              <div class="col-12 mb-10">
+                <input type="number" class="form-control" name="correo" id="correo" placeholder="Numero de celular"
+                  required="required" />
+                <div class="invalid-feedback">*Ingresa un email válido.</div>
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex p-0">
+                  <div class="input-group">
+                    <input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña"
+                      required="required" minlength="3" maxlength="25" data-rule="minlen:3" />
+                    <span class="input-group-text">
+                      <i class="align-self-center bi bi-eye px-2" onclick="showPsswdtoggle('clave', this)"
+                        style="cursor:pointer"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 d-flex align-items-center w-auto">
+                <button class="btn btn-primary w-100" type="submit">Continuar</button>
+              </div>
+
+              <div class="col-12">
+                <p class="small mb-0 text-center">
+                </p>
+              </div>
+
+              <div class="col-12">
+                <p class="small mb-0"></p>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Vertically centered Modal-->
+  <div class="modal fade" id="recovermodal" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="title-edit" name="title-edit">
+            <i class="bi bi-person-badge"></i>Recuperar Contraseña
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="d-flex justify-content-center py-4">
+            <a class="logo d-flex align-items-center w-auto">
+              <img src="{{ url_for('static', filename='img/logo.jfif') }}" alt="">
+            </a>
+          </div><!-- End Logo -->
+
+          <div>
+            <h5 class="card-title text-center pb-0 fs-4">Olvidaste tu clave?</h5>
+            <p class="text-center small pb-0 mb-0">No te preocupes, te enviaremos un correo<br>
+              con las instrucciones para recuperar tu cuenta.
+            </p>
+          </div>
+
+          <div class="d-flex justify-content-center py-4">
+            <form action="/recover-password?agroactor=True
+            " method="post" class="data-form">
+
+              <div class="col-12 mb-10">
+                <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico"
+                  required="required" />
+                <div class="invalid-feedback">*Ingresa un email válido.</div>
+              </div>
+
+              <div class="col-12 d-flex align-items-center w-auto m-0 p-0">
+                <button class="btn btn-primary w-100" type="submit">Continuar</button>
+              </div>
+
+              <div class="col-12">
+                <p class="small mb-0 text-center">
+                </p>
+              </div>
+
+              <div class="col-12">
+                <p class="small mb-0"></p>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Vertically centered Modal-->
+
+  <section class="main-content">
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+      <div class="hero-container">
+        <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+          <!--
+          <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+          -->
+
+          <div class="carousel-inner" role="listbox">
+            <!-- Slide 1 -->
+            <div class="carousel-item  active " style="background-image: url('static/img/slides/slide-1.jpg')">
+              <div class="carousel-container">
+                <div class="container">
+                  <h2 class="animate__animated animate__fadeInDown">Soluciones de gestión ganadera <br> basadas en
+                    trazabilidad</h2>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <!-- 
+            <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+            </a>
+
+            <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+            </a>
+            -->
+
+          </div>
+        </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+
+      <!-- ======= About Us Section ======= -->
+      <section id="about" class="about">
+        <div class="container">
+
+          <div class="title-home">
+            <h2>Trazii Bovinos</h2>
+            <p>Soluciones tecnológicas de gestión ganadera basadas en trazabilidad. Buscamos llevar la gestión
+              ganadera a las manos de todos los ganaderos desde pequeñas hasta grandes explotaciones, para que puedan
+              tener control de los procesos de negocio y tomar decisiones con base en analítica de datos.</p>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-4 order-1 order-lg-2">
+              <img src="{{ url_for('static', filename='img/about.jpg') }}" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-8 pt-4 pt-lg-0 order-2 order-lg-1 content">
+              <h3>¿Qué puedes encontrar en Trazii?</h3>
+              <p class="fst-italic">
+                Es una plataforma que ofrece soluciones tecnológicas para una trazabilidad ganadera. Con esta
+                herramienta se puede hacer un inventario, seguimiento y optimizar decisiones dentro del hato bovino.
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circled"></i><b>Inventario:</b> Controla el inventario de tu hato ganadero
+                  haciendo uso de chapetas de identificación o marcación manual. Registra información de las fincas,
+                  potreros y lotes de animales.</li>
+                <li><i class="bi bi-check-circled"></i><b>Seguimiento:</b> Ingresa los eventos asociados a cada animal
+                  para llevar control de su evolución: nacimientos, vacunaciones, procedimientos, pesaje, etc.</li>
+                <li><i class="bi bi-check-circled"></i><b>Decisiones inteligentes:</b> Utiliza los datos que arroja tu
+                  hato ganadero para analizar la evolución y tomar decisiones con base en ellos. Es hora de transformar
+                  la ganadería y llevarla al mundo de la información.</li>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section><!-- End About Us Section -->
+
+      <!-- ======= Why Us Section ======= -->
+      <section id="why-us" class="why-us">
+        <div class="container col-xl-12">
+
+          <div class="row no-gutters">
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>01</span>
+              <h4 class="title">Aplicación web y móvil</h4>
+              <p class="description">Es una plataforma que ofrece soluciones tecnológicas para una trazabilidad
+                ganadera. Descarga nuestra app móvil para Android-iPhone y realiza las labores de toma de datos de la
+                ganadería en campo.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>02</span>
+              <h4 class="title">Todos pueden usarla</h4>
+              <p class="description">En nuestro modelo de suscripción no hay límite de fincas ni de usuarios. Todos los
+                trabajadores de la finca podran acceder a la aplicación. A cada uno se le asigna un rol y se define que
+                puede ver.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>03</span>
+              <h4 class="title">Fincas y Potreros</h4>
+              <p class="description">Crea las fincas que pertenecen a tu negocio y en cada una de ellas puedes crear los
+                respectivos potreros. Registra los eventos, para que comiences a llevar control de tu negocio.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>04</span>
+              <h4 class="title">Inventario del ganado</h4>
+              <p class="description">Registra cada animal con sus características y datos de identificación. Asócialo a
+                lotes de animales para agruparlos, aplicarles procedimientos masivos, transporte, venta.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>05</span>
+              <h4 class="title">Registro de eventos por animal</h4>
+              <p class="description">Registra los eventos que suceden con cada animal y lote de animales. Cada
+                trabajador
+                puede registrar eventos de forma independiente. Comienza a llevar la trazabilidad de tu ganadería.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>06</span>
+              <h4 class="title">Gestión de lotes</h4>
+              <p class="description">Crea lotes de animales de ganadería para agruparlos por etapa de desarrollo, género
+                u
+                otra característica. También puedes crear lotes para transporte y cesión a un tercero por venta,
+                sacrificio u otro movimiento.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>07</span>
+              <h4 class="title">Sincronización de datos</h4>
+              <p class="description">Al contar con una conexión a internet, se pueden sincronizar los datos tomados en
+                campo. Todos los datos son identificados y no pueden modificarse, lo que garantiza la trazabilidad.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>08</span>
+              <h4 class="title">Analítica de datos</h4>
+              <p class="description">Gracias a la información de trazabilidad de tu explotación de ganadería, puedes
+                realizar análisis basados en históricos y comparaciones con datos del sector y explotaciones en tu zona.
+              </p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>09</span>
+              <h4 class="title">Reportes</h4>
+              <p class="description">Consulta toda la información relacionada con la finca, los animales y los eventos
+                de
+                cada animal. Visualiza reportes básicos sobre el hato de ganadería. Exporta la información que
+                requieras.
+              </p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>10</span>
+              <h4 class="title">Alertas</h4>
+              <p class="description">Recibe alertas por el cumplimiento de plazos, por situaciones anormales en los
+                datos
+                y eventos relacionados con el manejo de los lotes de animales de tu explotación de ganadería.</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 content-item">
+              <span>11</span>
+              <h4 class="title">Soporte</h4>
+              <p class="description">Cuentas con un equipo de personas dispuestas a colaborarte a ti y los colaboradores
+                de la finca que interactúan con nuestra solución de trazabilidad Trazii.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section><!-- End Why Us Section -->
+
+      <!-- ======= Noticias Section ======= -->
+
+      <section id="list" class="list">
+
+        <div class="title-home">
+          <h2>Noticias</h2>
+          <p></p>
+        </div>
+
+        <div class="container col-xl-12">
+          <div class="row g-5">
+
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-CierreAgCenter.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Cierre del proceso de aceleración con agcenter</h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-04-21</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-linkedin"></i> <span class="ps-2">LinkedIn</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7054841293209755648/"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-SanPedrodelosMilagros.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Empezamos pascua reunidos en San Pedro de los Milagros</h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-04-11</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-linkedin"></i> <span class="ps-2">LinkedIn</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7051318903628558336/"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-AgCenterFinalistas.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Fuimos seleccionados cómo finalistas en el Programa de Aceleración de
+                          agcenter!!!</h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-04-03</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-linkedin"></i> <span class="ps-2">LinkedIn</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7047709958443823104/"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-AsambleadeColanta.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Presentando Trazii en la 60a Asamblea de Cooperativa COLANTA</h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-03-15</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-linkedin"></i> <span class="ps-2">LinkedIn</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7041829933735641089/"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-ProgramaAPlenoDia.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Conversación en el programa A Pleno Día de Teleantioquia</h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-03-06</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-linkedin"></i> <span class="ps-2">LinkedIn</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7038585492451282944/"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-cview col-xl-4 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="blog-item position-relative h-100">
+                      <div class="blog-img position-relative overflow-hidden">
+                        <img src="{{ url_for('static', filename='img/docs/BV-BLO-TransformacionDigital.jpg') }}" class="img-fluid" alt="">
+                      </div>
+                      <div class="blog-content d-flex flex-column">
+                        <h3 class="blog-title">Nos estamos alistando para la transformación digital en la ganadería!
+                        </h3>
+                        <div class="meta d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-calendar2-check"></i> <span class="ps-2">2023-02-10</span>
+                          </div>
+                          <span class="px-3 text-black-50">/</span>
+                          <div class="d-flex align-items-center">
+                            <i class="bi bi-instagram"></i> <span class="ps-2">Instagram</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <a href="https://www.instagram.com/reel/CoeoDy8M-0y/?utm_source=ig_web_copy_link"
+                          class="readmore stretched-link" target="_blank"><span>Ver publicación</span><i
+                            class="bi bi-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section><!-- End Noticias Section -->
+
+
+
+      <!-- ======= Portfolio Section ======= -->
+      <section id="portfolio" class="portfolio">
+        <div class="container">
+
+          <div class="title-home">
+            <h2>Expo Agrofuturo 2023</h2>
+            <p>Expo Agrofuturo | Sep. 6, 7 y 8 de 2023 | Plaza Mayor, Medellín</p>
+          </div>
+
+          <!--
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+              <ul id="portfolio-flters">
+                <li data-filter="*" class="filter-active">All</li>
+              </ul>
+            </div>
+          </div>
+          -->
+
+          <div class="row portfolio-container">
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              <div class="portfolio-wrap">
+                <img src="{{ url_for('static', filename='img/events/event-1.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+              <div class="portfolio-wrap">
+                <img src="{{ url_for('static', filename='img/events/event-2.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              <div class="portfolio-wrap">
+                <img src="{{ url_for('static', filename='img/events/event-3.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+              <div class="portfolio-wrap">
+                <img src="{{ url_for('static', filename='img/events/event-4.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+              <div class="portfolio-wrap">
+                <img src="{{ url_for('static', filename='img/events/event-5.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              <div class="portfolio-wrap">
+                <img src= "{{ url_for('static', filename='img/events/event-6.jpg') }}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section><!-- End Portfolio Section -->
+
+      <!-- ======= Cta Section ======= -->
+      <section id="cta" class="cta">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-lg-10 text-center text-lg-start">
+              <h3>Comunícate con nosotros</h3>
+              <p>Nos puedes encontrar en Medellín y Montería. Envíanos un mensaje a <a
+                  href="mailto:contact@example.com">experto@trazii.com</a> o comunícate con nosotros vía WhatsApp.</p>
+            </div>
+            <div class="col-lg-2 cta-btn-container text-center">
+              <a class="cta-btn align-middle" href="https://wa.me/573242747759" target="_blank">
+                <i class="bi bi-whatsapp"></i>&nbsp;WhatsApp</a>
+            </div>
+          </div>
+
+        </div>
+      </section><!-- End Cta Section -->
+
+    </main><!-- End #main -->
+
+
+  </section>
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3> Trazabilidad Ganadera S.A.S.</h3>
+      <p> Nos puedes encontrar en Medellín y Montería; y también en nuestras redes sociales:</p>
+      <div class="social-links">
+        <a href=" https://www.facebook.com/trazii.co/" class="facebook" target="_blank"><i
+            class="bx bxl-facebook"></i></a>
+        <a href=" https://www.instagram.com/trazii_co/" class="instagram" target="_blank"><i
+            class="bx bxl-instagram"></i></a>
+        <a href=" https://www.linkedin.com/company/trazii/" class="linkedin" target="_blank"><i
+            class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="credits">
+        <a href="terminos-y-condiciones/index.html">Términos y Condiciones</a><br><br>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>Green</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/green-free-one-page-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}" type="text/javascript"></script>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% macro SideBar() %}
+<nav class="sidebar sidebar-navigation">
+    <ul>
+      <li>
+        <img src="{{ url_for('static', filename='img/logo.jfif') }}" alt="" class="img-fluid">
+      </li>
+      <!--
+      <li>
+        <a class="nav-link" href="#Balance del mes">Balance del mes</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#Información general">Información general</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#Información de las fincas">Información de las fincas</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#Información de las compras">Información de las compras</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#Eficiencia">Eficiencia</a>
+      </li>
+      -->
+      <li>
+        <a class="nav-link" href="#about">Analitica y Dashboard</a>
+      </li>  
+      <li>
+        <a class="nav-link" href="#about">Gestionar terceros</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#list">Configuración de alertas</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#cta">Gestionar Usuarios</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#portfolio">Administración de certificados</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#portfolio">Solicitar soporte</a>
+      </li>
+      <li>
+        <a class="nav-link" href="#portfolio">Manejo de datos e información</a>
+      </li>
+    </ul>
+  </nav>
+{% endmacro %}
