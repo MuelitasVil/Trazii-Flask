@@ -20,7 +20,7 @@ def index():
             storage = localStorage()
             subjectData = storage.get_subject_data()
             return redirect(url_for("menu.Menu"))
-    
+        
         else:
             flash('Por favor revisa tus datos:\nTu número de celular o contraseña son incorrectos')
 

@@ -31,7 +31,7 @@ class ExcelManager:
         self.filaInicial = 5
         self.filaInicialGanado = 6
         
-    def ExcelUpdateToDB(self):
+    def ExcelTrazablesUpdateToDB(self):
         
         '''
         Se van a recorrer las hojas del excel, y se va a crear la lista

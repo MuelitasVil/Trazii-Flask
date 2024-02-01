@@ -8,14 +8,12 @@ from app.shared.localStorage import localStorage
 cargas = Blueprint("cargas", __name__, static_folder="static", template_folder="templates")
 
 @cargas.route('/CargasMasivas', methods = ["POST", "GET"])
-def Cargas():
+def subir():
     storage = localStorage()
     nowTime = datetime.utcnow()
     expirationTime = datetime.fromtimestamp(int(storage.get_exp()))
 
-    if nowTime > expirationTime: 
-        return render_template("cargas.html")
-
+    return render_template("cargas.html")
     return abort(404)
 
 @cargas.route('/upload', methods = ["POST"])
@@ -30,7 +28,7 @@ def upload():
     if file and VerifyExel(fileName):
         print(fileName)
         excel = ExcelManager(file)
-        excel.ExcelUpdateToDB()
+        excel.ExcelTrazablesUpdateToDB()
         return redirect(url_for("menu.Menu"))
     else:
         return "NO EXEL" 
