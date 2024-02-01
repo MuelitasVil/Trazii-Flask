@@ -3,13 +3,21 @@
 {% block title %} Trazabilidad Ganadera {% endblock %}
 {% block Content %}
     <header class="sidebar">
-        {{ SideBar() }}
+    {{ SideBar() }}
     </header>
     <div class="content-Menu">
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" id="uploadFile" name = "uploadFile" accept=".xlsm">
-            <input type="submit">
-        </form>
+        <h1>Cargas Masivas </h1>
+        <div class="container-fluid mt-5">
+            <form class="rounded-pill bg-secondary p-3 text-white text-center" action="/upload" method="POST" enctype="multipart/form-data"> <!-- Agregamos la clase 'card' para el marco y 'p-3' para el espacio interno -->
+                <div class="mb-3">
+                    <label for="uploadFile" class="form-label">Seleccionar archivo</label>
+                    <input class="form-control" type="file" id="uploadFile" name="uploadFile" accept=".xlsm">
+                </div>
+                <div class="text-center"> <!-- Alineación al centro -->
+                    <button type="submit" class="btn btn-light">Subir Archivo</button> <!-- Cambié el color del botón a claro para mayor contraste -->
+                </div>
+            </form>
+        </div>
     </div>
     
     <!-- Vendor JS Files -->

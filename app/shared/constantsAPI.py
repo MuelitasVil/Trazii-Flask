@@ -3,24 +3,25 @@ En este archivo se muestran las constasntes que existes en la API
 '''
 
 class EndPoints:
-    PATH = 'https://api.trazii.com/'
-    END_POINT_LOGIN = PATH + "/seguridad/auth/login"
-    END_POINT_SINCRONIZACION_INVENTARIOS = PATH + "/sincronizacion/inventarios/"
-    END_POINT_SINCRONIZACION_DATOS = PATH + "/sincronizacion/datos/"
-    END_POINT_SINCRONIZACION_UBICACIONES = PATH + "/sincronizacion/ubicaciones/"
-    END_POINT_SINCRONIZACION_TRAZAS = PATH + "/sincronizacion/trazas/"
-    END_POINT_SINCRONIZACION_CARACTERISICAS = PATH + "/sincronizacion/caracteristicas/"
+    PATH = 'https://api.trazii.com'
+    LOGIN = PATH + "/seguridad/auth/login"
+    SINCRONIZACION_INVENTARIOS = PATH + "/sincronizacion/inventarios/"
+    SINCRONIZACION_DATOS = PATH + "/sincronizacion/datos/"
+    SINCRONIZACION_UBICACIONES = PATH + "/sincronizacion/ubicaciones/"
+    SINCRONIZACION_TRAZAS = PATH + "/sincronizacion/trazas/"
+    SINCRONIZACION_CARACTERISICAS = PATH + "/sincronizacion/caracteristicas/"
 
 class GlobalVars:
     TYPE_OF_TOKEN = "Bearer"
     AGRONEGOCIO_BOVINO = "BV"
+    
     Cantidades = {
-    "cantidadBovinos" : 0,
-    "cantidadPotreros" : 0,
-    "cantidadFincas" : 0,
-    "cantidadColaboradores" : 0,
-    "cantidadGanado" : 0,
-    "cantidadPropietarios" : 0,
+    "Cant_BOV" : 0,
+    "Cant_POT" : 0,
+    "Cant_FIN" : 0,
+    "Cant_COL" : 0,
+    "Cant_GAN" : 0,
+    "Cant_PRO" : 0,
     }
 
 class Trazables:

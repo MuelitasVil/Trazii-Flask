@@ -1,8 +1,7 @@
-from app.shared.localStorage import localStorage
-from app.services.sync.datos import getDatos
-from app.services.sync.ubicaciones import getUbicaciones
-from app.services.sync.trazas import getTrazas
-from app.services.sync.caracteristicas import getCaracteristicas
+from app.services.sync.trazables.datos import getDatos
+from app.services.sync.trazables.ubicaciones import getUbicaciones
+from app.services.sync.trazas.trazas import getTrazas
+from app.services.sync.trazas.caracteristicas import getCaracteristicas
 
 '''
 Se cargan los datos en localStorage al llamar los datos en el orden estipulado 

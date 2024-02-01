@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from app.routes.home import home
 from app.routes.menu import menu
 from app.routes.cargas import cargas
-from app.shared.localStorage import localStorage
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static/uploads"

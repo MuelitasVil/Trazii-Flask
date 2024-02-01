@@ -47,28 +47,29 @@ class ExcelManager:
         self.get_dataHojaTrazable("GANADO")
 
         ubicaciones = self.excelToJSON.JsonUbicacion(self.trazables)
-        self.UpdateExcel.ubicaciones = ubicaciones
         
-        print("------------------")
-        print("Inventarios")
-        print("------------------\n")
+        #print("------------------")
+        #print("Diccionario Ubicaciones")
+        #print("------------------\n")
+        #print(self.trazables["FIN"])
+        #print("------------------\n")
+        
+        self.UpdateExcel.ubicaciones = ubicaciones
+        self.UpdateExcel.updateInformation()
+        
+        #print("------------------")
+        #print("Inventarios")
+        #print("------------------\n")
 
-        for inv in self.UpdateExcel.inventarios:
-            print(inv)
+        #for inv in self.UpdateExcel.inventarios:
+        #    print(inv)
 
-        print("------------------")
-        print("Datos")
-        print("------------------\n")
+        #print("------------------")
+        #print("Datos")
+        #print("------------------\n")
+        #for dat in self.UpdateExcel.datos:
+        #    print(dat)
 
-        for dat in self.UpdateExcel.datos:
-            print(dat)
-
-        print("------------------")
-        print("Ubicaciones")
-        print("------------------\n")
-
-        for ub in self.UpdateExcel.ubicaciones:
-            print(ub)
 
     def get_dataHojaTrazable(self, nombreHoja):
         
@@ -122,14 +123,6 @@ class ExcelManager:
 
             self.UpdateExcel.inventarios.append(dictInvetario)
             self.UpdateExcel.datos.extend(dictDatos)
-
-        #print("Inventarios : ")
-        #for inv in self.columnsTODB.inventarios:
-        #    print(inv)
-        
-        #print("Datos : ")
-        #for dat in self.columnsTODB.datos: 
-        #    print(dat)
         
     def print_data(self, nombreHoja):
         
@@ -177,11 +170,14 @@ class ExcelManager:
         id_trazii = dictInvetario['id_trazii']
         ubicacion = self.get_Ubicacion(headers, rowData, trazable, id_trazii)
         padre = self.get_Padre(headers, rowData, trazable, id_trazii)
+        ubicacion_denominacion = None
 
         if ubicacion != None:
             if ubicacion[1]:
+                ubicacion_denominacion = ubicacion[0]['denominacion']
                 ubicacion = ubicacion[0]['id_trazii']
             else:
+                ubicacion_denominacion = ubicacion[0]['ubicacion_denominacion']
                 ubicacion = ubicacion[0]['ubicacion']
 
         if padre != None:  
@@ -192,7 +188,9 @@ class ExcelManager:
         
         self.trazables[trazable][denominacion] = {
             'id_trazii' : id_trazii,
+            'denominacion' : denominacion,
             'ubicacion' : ubicacion,
+            'ubicacion_denominacion' : ubicacion_denominacion,
             'padre' : padre,
             'elementos' : [],
             'hijos' : []
@@ -281,7 +279,10 @@ class ExcelManager:
         
         # Si no tiene la finca, se verifica donde esta ubicado su padre.
         if not haveFinca:
-            return [self.get_Padre(headers, rowData, trazable, id_trazii), False]
+            padre = self.get_Padre(headers, rowData, trazable, id_trazii)
+            denominacion = padre['ubicacion_denominacion']
+            self.trazables[ubicacion][denominacion]['elementos'].append(id_trazii)
+            return [padre, False]
         
         # Si tiene el nombre de la finca, el nombre de esta.
         i = 0

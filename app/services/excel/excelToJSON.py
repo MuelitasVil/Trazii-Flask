@@ -27,7 +27,7 @@ class ExceltoJson:
         referencia = None
         denominacion = self.get_Denominacion(filaExcel, trazable)
         padre = None
-        estado = "Activo"
+        estado = "Creado"
         ultimo_cambio = self.get_ultimoCambio()
         id_trazii = self.get_uuid()
 
@@ -45,7 +45,7 @@ class ExceltoJson:
 
     def JsonDatos(self, filaExcel, headers, nombreHoja, uuid):
         trazable = self.get_Trazable(nombreHoja)
-        estado = "Activo"
+        estado = "Creado"
         ultimo_cambio = self.get_ultimoCambio()
         inventario = uuid
         agronegocio = "BV"
@@ -67,18 +67,21 @@ class ExceltoJson:
 
             valor = filaExcel[i]
             item = DictColumnToItem[headers[i]]
+        
+            if item == "FIUB":
+                valor = valor.split(",")[1]
             
             if isinstance(valor, datetime):
                 valor = valor.strftime('%Y-%m-%dT%H:%M:%S')
-
-            dato['valor'] = valor 
+        
+            dato['valor'] = str(valor) 
             dato['estado'] = estado
             dato['ultimo_cambio'] = ultimo_cambio
             dato['inventario'] = inventario
             dato['agronegocio'] = agronegocio
             dato['trazable'] = trazable
             dato['item'] = item
-            
+
             Datos.append(dato)
 
         return Datos
@@ -112,7 +115,7 @@ class ExceltoJson:
             hasta = None 
             observaciones = None
             referencia = None
-            estado = "Activo"
+            estado = "Creado"
             ultimo_cambio = self.get_ultimoCambio()
             desde = self.get_ultimoCambio()
 
@@ -130,6 +133,14 @@ class ExceltoJson:
 
         return ubicaciones
 
+    def get_utf8(self, stringUnicode):
+        
+        '''
+        Funcion para poder leer las tildes de los strings 
+        '''
+        
+        return bytes(stringUnicode, "utf-8").decode("unicode_escape")
+
     def get_Denominacion(self,filaExcel, trazable):
         
         '''
@@ -146,7 +157,6 @@ class ExceltoJson:
             return filaExcel[0]
         if trazable == Config.Trazables.BOVINO:
             return str(filaExcel[0]) + "_" + str(filaExcel[2])
-
 
     def get_DictColumnToItem(self, trazable):
         if trazable == Config.Trazables.FINCA:

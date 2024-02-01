@@ -26,7 +26,7 @@ def getCaracteristicas():
     }
 
     request = requests.post(
-        Config.EndPoints.END_POINT_SINCRONIZACION_CARACTERISICAS,
+        Config.EndPoints.SINCRONIZACION_CARACTERISICAS,
         params = params,
         json = [],
         headers = headers).json()

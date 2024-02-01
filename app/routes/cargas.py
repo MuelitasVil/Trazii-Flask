@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, abort, redirect, url_for
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
@@ -10,7 +10,6 @@ cargas = Blueprint("cargas", __name__, static_folder="static", template_folder="
 @cargas.route('/CargasMasivas', methods = ["POST", "GET"])
 def Cargas():
     storage = localStorage()
-    
     nowTime = datetime.utcnow()
     expirationTime = datetime.fromtimestamp(int(storage.get_exp()))
 
@@ -32,7 +31,7 @@ def upload():
         print(fileName)
         excel = ExcelManager(file)
         excel.ExcelUpdateToDB()
-        return "Exel"
+        return redirect(url_for("menu.Menu"))
     else:
         return "NO EXEL" 
         

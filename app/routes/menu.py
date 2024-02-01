@@ -5,16 +5,14 @@ from flask import flash ,Blueprint, render_template
 # import plotly
 # import plotly.express as px
 
-from app.services.sync.inventarios import getInventarios
-from app.shared.trazables import Information_Trazables
 from app.services.sync.sincronizar import sincronizar_datos
 from app.services.utils.calculations import getTotalArea
 from app.shared.localStorage import localStorage
 
 menu = Blueprint("menu", __name__, static_folder="static", template_folder="templates")
 
-@menu.route('/Menu/<name>', methods = ["POST", "GET"])
-def Menu(name):
+@menu.route('/Menu', methods = ["POST", "GET"])
+def Menu():
     
     sincronizar_datos()
     storage = localStorage()
@@ -34,8 +32,8 @@ def Menu(name):
     ordeño = storage.get_Ordeño()
 
     # Datos  
-    cantidad_Bovinos = cantidades['cantidadBovinos']
-    cantidad_Colaboradores = cantidades['cantidadColaboradores']
+    cantidad_Bovinos = cantidades['Cant_BOV']
+    cantidad_Colaboradores = cantidades['Cant_COL']
     area_Total = getTotalArea(fincas)
 
     # Informacion fincas
@@ -52,8 +50,9 @@ def Menu(name):
     headingsPastoreo = ["Pastoreo"]
     
     dataordeño = getTablaOrdeño(ordeño)
+
     dataProduccion = [
-        ["Litros / ha : {}".format(round(dataordeño[0] / area_Total, 2))],
+        ["Litros / ha : {}".format(getLitrosH(dataordeño, area_Total))],
         ["Litros vaca / dia : {}".format(dataordeño[1])],
         ["Kg / ha : NONE"],
         ["Kg / animal : NONE"]
@@ -113,6 +112,11 @@ def Menu(name):
         # dataCompras = dataCompras,
         dataEficiencia = dataEficiencia
     )
+
+def getLitrosH(dataordeño, area_Total):
+    if area_Total == 0:
+        return 0
+    return round(dataordeño[0] / area_Total, 2)
 
 def getTablaFincas(fincas):
     data = []

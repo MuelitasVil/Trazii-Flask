@@ -26,7 +26,7 @@ def getTrazas():
     }
 
     request = requests.post(
-        Config.EndPoints.END_POINT_SINCRONIZACION_TRAZAS,
+        Config.EndPoints.SINCRONIZACION_TRAZAS,
         params = params,
         json = [],
         headers = headers).json()

@@ -93,6 +93,14 @@ class localStorage:
         trazables.set_Propietarios(self.get_Propietarios())
         return trazables
     
+    def set_trazables(self, Trazables):
+        self.set_Bovinos(Trazables.Information_Bovinos) 
+        self.set_Colaboradores(Trazables.Information_Colaboradores)
+        self.set_Fincas(Trazables.Information_Fincas)
+        self.set_Ganado(Trazables.Information_Ganado)
+        self.set_Potreros(Trazables.Information_Potreros)
+        self.set_Propietarios(Trazables.Information_Propietarios)
+
     # Cantidades de trazables 
     def set_Cantidades(self, Cantidades):
         self.Storage.setItem("Cantidades", Cantidades)
