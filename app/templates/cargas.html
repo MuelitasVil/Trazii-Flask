@@ -1,14 +1,83 @@
-{% from 'macros/sidebar.html' import SideBar%}
+{% from 'macros/sidebar.html' import SideBar %}
+{% from 'macros/table.html' import Table, Tables %}
+{% from 'macros/card.html' import card %}
+
 {% extends "base.html" %}
 {% block title %} Trazabilidad Ganadera {% endblock %}
 {% block Content %}
-    <header class="sidebar">
+
+<header class="sidebar">
     {{ SideBar() }}
     </header>
+
     <div class="content-Menu">
         <h1>Cargas Masivas </h1>
-        <div class="container-fluid mt-5">
-            <form class="rounded-pill bg-secondary p-3 text-white text-center" action="/upload" method="POST" enctype="multipart/form-data"> <!-- Agregamos la clase 'card' para el marco y 'p-3' para el espacio interno -->
+        <hr />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="m-2">¿Cómo realizar cargas de tus inventarios?</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <ol class="pl-3">
+                        <li>Descarga el formato de cargas de inventarios.</li>
+                        <li>Descarga el formato de ejemplo para que te guíes, del ejemplo que preparamos para ti.</li>
+                        <li>Rellena el Excel a partir de los datos de tus fincas.</li>
+                        <li>Sube tu Excel rellenado, en el apartado de subir archivos.</li>
+                        <li>Verifica si tus datos han sido subidos exitosamente en la web o en la aplicación web.</li>
+                        <li>Si los datos no concuerdan, por favor contacta con soporte.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="m-2">Descargar archivo</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+                {{ card(
+                    url_for('cargas.Download_File'),
+                    url_for('static', filename='img/icons/excel.png'),
+                    "Plantilla cargas inventarios",
+                    "Formato con el cual podrá subir los datos de su inventario: fincas, potreros, lotes y ganado.",
+                    "Para descargar el formato, simplemente haga clic en la imagen."
+                ) }}
+            </div>
+            <div class="col-sm-3">
+                {{ card(
+                    url_for('cargas.Download_FileDatos'),
+                    url_for('static', filename='img/icons/excel.png'),
+                    "Plantilla ejemplo de cargas inventarios",
+                    "Formato ya rellenado con el cual se podrá guiar para rellenar sus inventarios.\n",
+                    "Para descargar el formato, simplemente haga clic en la imagen."
+                ) }}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="m-2">Subir inventarios</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="width: 100%;">
+            <form class="border p-3 text-black text-center" action="/upload" method="POST" enctype="multipart/form-data"> <!-- Agregamos la clase 'card' para el marco y 'p-3' para el espacio interno -->
                 <div class="mb-3">
                     <label for="uploadFile" class="form-label">Seleccionar archivo</label>
                     <input class="form-control" type="file" id="uploadFile" name="uploadFile" accept=".xlsm">

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, abort, redirect, url_for
+from flask import Blueprint, render_template, request, abort, redirect, url_for, send_file
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
@@ -14,7 +14,16 @@ def subir():
     expirationTime = datetime.fromtimestamp(int(storage.get_exp()))
 
     return render_template("cargas.html")
-    return abort(404)
+
+@cargas.route("/downloadCargasTrazas", methods = ["POST", "GET"])
+def Download_File():
+    PATH = "static/excel/Plantilla de cargas inventarios.xlsm"
+    return send_file(PATH, as_attachment=True)
+
+@cargas.route("/downloadCargasDatos", methods = ["POST", "GET"])
+def Download_FileDatos():
+    PATH = "static/excel/Plantilla de cargas inventarios - Datos.xlsm"
+    return send_file(PATH, as_attachment=True)
 
 @cargas.route('/upload', methods = ["POST"])
 def upload():
@@ -33,7 +42,6 @@ def upload():
     else:
         return "NO EXEL" 
         
-
 def VerifyExel(fileName):
     if fileName.endswith(".xlsm") or fileName.endswith(".xlsb") or fileName.endswith(".xlsx"):
         return True

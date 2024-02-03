@@ -1,4 +1,4 @@
-from flask import flash ,Blueprint, render_template 
+from flask import flash ,Blueprint, render_template
 
 # import pandas as pd
 # import json

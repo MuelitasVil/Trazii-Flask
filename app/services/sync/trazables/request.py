@@ -32,8 +32,5 @@ def getRequestTrazable(url, Informacion = []):
             params = params,
             data = data
             ).json()
-
-    print("RESPUESTA : ")
-    print(response)
     
     return response
