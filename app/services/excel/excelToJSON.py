@@ -71,6 +71,12 @@ class ExceltoJson:
             if item == "FIUB":
                 valor = valor.split(",")[1]
             
+            if item == 'BOSE':
+                if valor == "H":
+                    valor = "Hembra"
+                if valor == "M":
+                    valor = "Macho"
+        
             if isinstance(valor, datetime):
                 valor = valor.strftime('%Y-%m-%dT%H:%M:%S')
         
