@@ -123,14 +123,20 @@ def getTablaFincas(fincas):
     for key in fincas:
 
         finca = fincas[key]
-        nombre = finca['FINA']
+        
+        nombre = "SIN NOMBRE"
+        if 'FINA' in finca:
+            nombre = finca['FINA']
+        
 
         if 'Cantidad_BOV' not in finca:
             bovinos = 0
         else:
             bovinos = finca['Cantidad_BOV']
 
-        area = finca['FIAR']
+        area = 0
+        if 'FIAR' in finca:
+            area = finca['FIAR']
 
         if 'Cantidad_COL' not in finca:
             colaboradores = 0
